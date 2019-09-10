@@ -1,0 +1,9 @@
+node_modules
+dist
+yarn-error.log
+.cache
+.vs
+bin/
+obj/
+.env
+build/
