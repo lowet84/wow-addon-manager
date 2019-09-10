@@ -6,8 +6,6 @@ import { getRoute, Route } from './store/navigationReducer'
 import store from './store'
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
-import purple from '@material-ui/core/colors/purple'
-import green from '@material-ui/core/colors/green'
 import { CssBaseline } from '@material-ui/core'
 
 const theme = createMuiTheme({
