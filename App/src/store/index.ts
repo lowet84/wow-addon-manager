@@ -1,7 +1,8 @@
 import { createStore, Action, combineReducers } from 'redux'
 import { navigation } from './navigationReducer'
+import { search } from './searchReducer'
 
-const rootReducer = combineReducers({ navigation })
+const rootReducer = combineReducers({ navigation, search })
 
 const store = createStore(rootReducer)
 

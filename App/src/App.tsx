@@ -7,14 +7,16 @@ import store from './store'
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import { CssBaseline } from '@material-ui/core'
+import { loadSearchResults } from './store/searchReducer'
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   palette: {
     type: 'dark'
   }
 })
 
 const App = () => {
+  loadSearchResults()
   const route = useSelector(getRoute)
   switch (route) {
     case Route.Home:
