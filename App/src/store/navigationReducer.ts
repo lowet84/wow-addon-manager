@@ -1,19 +1,27 @@
 import { RootState } from '.'
 
-export type NavigationAction = { type: 'setRoute'; input: Route }
-export type NavigationState = { route: Route }
+export type NavigationAction =
+  | { type: 'setRoute'; input: Route }
+  | { type: 'setShowDrawer'; input: boolean }
+export type NavigationState = { route: Route; showDrawer: boolean }
 
 export enum Route {
-  Home
+  Search
+}
+
+export function setShowDrawer(input: boolean): NavigationAction {
+  return { type: 'setShowDrawer', input }
 }
 
 export function navigation(
-  state: NavigationState = { route: Route.Home },
+  state: NavigationState = { route: Route.Search, showDrawer: false },
   action: NavigationAction
 ) {
   switch (action.type) {
     case 'setRoute':
       return { ...state, route: action.input }
+    case 'setShowDrawer':
+      return { ...state, showDrawer: action.input }
     default:
       return state
   }
@@ -21,4 +29,8 @@ export function navigation(
 
 export const getRoute = (state: RootState) => {
   return state.navigation.route
+}
+
+export const getShowDrawer = (state: RootState) => {
+  return state.navigation.showDrawer
 }

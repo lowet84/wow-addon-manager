@@ -10,10 +10,12 @@ import {
 } from '@material-ui/core'
 import { SearchField } from './SearchField'
 import { getSearchResults } from '../store/searchReducer'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store'
+import MenuIcon from '@material-ui/icons/Menu'
+import { setShowDrawer } from '../store/navigationReducer'
 
-export const Home = () => {
+export const Search = () => {
   const searchResults = useSelector(getSearchResults)
   const [searchString, setSearchString] = useState('')
   const filteredResult = useSelector((state: RootState) =>
@@ -21,6 +23,7 @@ export const Home = () => {
       .filter(d => d.name.toLowerCase().includes(searchString.toLowerCase()))
       .sort((a, b) => a.name.localeCompare(b.name))
   )
+  const dispatch = useDispatch()
 
   return (
     <div>
@@ -29,8 +32,12 @@ export const Home = () => {
           <IconButton
             edge="start"
             color="inherit"
+            style={{ marginRight: 20 }}
+            onClick={() => dispatch(setShowDrawer(true))}
             aria-label="menu"
-          ></IconButton>
+          >
+            <MenuIcon />
+          </IconButton>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
             AddOns
           </Typography>
