@@ -8,7 +8,7 @@ export const Manage = () => {
   const dispatch = useDispatch()
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             edge="start"

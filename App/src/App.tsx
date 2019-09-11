@@ -7,9 +7,9 @@ import store from './store'
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import { CssBaseline } from '@material-ui/core'
-import { loadSearchResults } from './store/searchReducer'
 import { NavDrawer } from './components/NavDrawer'
 import { Manage } from './components/Manage'
+import { loadSearchResultWillItClassic } from './store/searchReducer'
 
 export const theme = createMuiTheme({
   palette: {
@@ -18,7 +18,7 @@ export const theme = createMuiTheme({
 })
 
 const App = () => {
-  loadSearchResults()
+  loadSearchResultWillItClassic()
   const route = useSelector(getRoute)
   switch (route) {
     case Route.Search:

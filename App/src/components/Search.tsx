@@ -27,7 +27,7 @@ export const Search = () => {
 
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
@@ -47,26 +47,51 @@ export const Search = () => {
           />
         </Toolbar>
       </AppBar>
-      <div>
+      <div style={{ marginTop: '4rem' }}>
         <List>
           {filteredResult.map((r, index) => (
             <ListItem key={index}>
-              <img
-                style={{
-                  height: 80,
-                  width: 80,
-                  margin: 10,
-                  padding: 5,
-                  borderColor: '#999999',
-                  borderWidth: 1,
-                  borderStyle: 'solid',
-                  borderRadius: 5
-                }}
-                src={r.image}
-              />
-              <div style={{ flexDirection: 'column' }}>
-                <div style={{ fontSize: 20 }} dangerouslySetInnerHTML={{ __html: r.name }}></div>
-                <div style={{ color: '#999999' }}  dangerouslySetInnerHTML={{ __html: r.description }}></div>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div
+                  style={{
+                    height: '80px',
+                    flex: '0 0 80px',
+
+                    margin: 10,
+                    padding: 5,
+                    borderColor: '#999999',
+                    borderWidth: 1,
+                    borderStyle: 'solid',
+                    borderRadius: 5
+                  }}
+                >
+                  {r.addonImage ? (
+                    <img src={r.addonImage} style={{ width: '100%' }} />
+                  ) : (
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100%',
+                        fontSize: 48
+                      }}
+                    >
+                      X
+                    </div>
+                  )}
+                </div>
+
+                <div style={{ flexDirection: 'column' }}>
+                  <div
+                    style={{ fontSize: 20 }}
+                    dangerouslySetInnerHTML={{ __html: r.name }}
+                  ></div>
+                  <div
+                    style={{ color: '#999999' }}
+                    dangerouslySetInnerHTML={{ __html: r.summary }}
+                  ></div>
+                </div>
               </div>
             </ListItem>
           ))}
