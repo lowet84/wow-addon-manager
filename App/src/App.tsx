@@ -9,6 +9,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import { CssBaseline } from '@material-ui/core'
 import { loadSearchResults } from './store/searchReducer'
 import { NavDrawer } from './components/NavDrawer'
+import { Manage } from './components/Manage'
 
 export const theme = createMuiTheme({
   palette: {
@@ -22,6 +23,8 @@ const App = () => {
   switch (route) {
     case Route.Search:
       return <Search />
+    case Route.Manage:
+      return <Manage />
     default:
       return <div>Error</div>
   }

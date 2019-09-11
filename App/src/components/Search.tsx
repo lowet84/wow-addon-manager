@@ -39,7 +39,7 @@ export const Search = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
-            AddOns
+            Search
           </Typography>
           <SearchField
             text={searchString}
@@ -65,8 +65,8 @@ export const Search = () => {
                 src={r.image}
               />
               <div style={{ flexDirection: 'column' }}>
-                <div style={{ fontSize: 20 }}>{r.name}</div>
-                <div style={{ color: '#999999' }}>{r.description}</div>
+                <div style={{ fontSize: 20 }} dangerouslySetInnerHTML={{ __html: r.name }}></div>
+                <div style={{ color: '#999999' }}  dangerouslySetInnerHTML={{ __html: r.description }}></div>
               </div>
             </ListItem>
           ))}

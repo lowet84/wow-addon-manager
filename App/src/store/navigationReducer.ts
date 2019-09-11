@@ -6,11 +6,16 @@ export type NavigationAction =
 export type NavigationState = { route: Route; showDrawer: boolean }
 
 export enum Route {
-  Search
+  Search,
+  Manage
 }
 
 export function setShowDrawer(input: boolean): NavigationAction {
   return { type: 'setShowDrawer', input }
+}
+
+export function setRoute(input: Route): NavigationAction {
+  return { type: 'setRoute', input }
 }
 
 export function navigation(

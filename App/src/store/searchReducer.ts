@@ -15,10 +15,6 @@ export interface SearchResult {
 export type SearchAction = { type: 'setSearchResults'; input: SearchResult[] }
 export type SearchState = { searchResults: SearchResult[] }
 
-export enum Route {
-  Home
-}
-
 export function setSearchResults(input: SearchResult[]): SearchAction {
   return { type: 'setSearchResults', input }
 }
