@@ -50,18 +50,18 @@ export const Manage = () => {
           return (
             <Fragment key={index}>
               <ListItem>
-                {/* <Avatar
-                alt="X"
-                src={r.image}
-                style={{ height: 80, width: 80, marginRight: 30 }}
-              /> */}
+                <Avatar
+                  alt="X"
+                  src={addOn.addonImage}
+                  style={{ height: 40, width: 40, marginRight: 30 }}
+                />
                 <ListItemText primary={addOn.name} />
                 <ListItemSecondaryAction style={{ marginLeft: 30 }}>
                   <IconButton edge="end" aria-label="comments">
                     {r.lastUpdate < addOn.timeUpdated._seconds ? (
-                      <CloudUploadIcon color="action"/>
+                      <CloudUploadIcon color="action" />
                     ) : (
-                      <DoneOutlineIcon color="primary"/>
+                      <DoneOutlineIcon color="primary" />
                     )}
                   </IconButton>
                   <IconButton

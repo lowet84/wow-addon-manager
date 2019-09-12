@@ -13,10 +13,12 @@
   "dependencies": {
     "@material-ui/core": "^4.4.1",
     "@material-ui/icons": "^4.4.1",
+    "@types/adm-zip": "^0.4.32",
     "@types/cheerio": "^0.22.13",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.2",
+    "adm-zip": "^0.4.13",
     "cheerio": "^1.0.0-rc.3",
     "copyfiles": "^2.1.1",
     "cross-env": "^5.2.1",

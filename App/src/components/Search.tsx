@@ -13,7 +13,7 @@ import {
   ListItemSecondaryAction
 } from '@material-ui/core'
 import { SearchField } from './SearchField'
-import { getSearchResults } from '../store/searchReducer'
+import { getSearchResults, downloadAddon } from '../store/searchReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -72,14 +72,19 @@ export const Search = () => {
                     edge="end"
                     aria-label="comments"
                     style={{ marginLeft: 30 }}
-                    onClick={() => {
+                    onClick={async () => {
                       if (!isAddOnInstalled(r.objectID)) {
-                        dispatch(
-                          addAddOn({
-                            id: r.objectID,
-                            lastUpdate: r.timeUpdated._seconds
-                          })
+                        await downloadAddon(
+                          r.url,
+                          r.objectID,
+                          null
                         )
+                        // dispatch(
+                        //   addAddOn({
+                        //     id: r.objectID,
+                        //     lastUpdate: r.timeUpdated._seconds
+                        //   })
+                        // )
                       }
                     }}
                   >

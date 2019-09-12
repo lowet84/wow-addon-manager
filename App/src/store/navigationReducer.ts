@@ -19,7 +19,7 @@ export function setRoute(input: Route): NavigationAction {
 }
 
 export function navigation(
-  state: NavigationState = { route: Route.Manage, showDrawer: false },
+  state: NavigationState = { route: Route.Search, showDrawer: false },
   action: NavigationAction
 ) {
   switch (action.type) {

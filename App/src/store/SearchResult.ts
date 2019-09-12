@@ -35,16 +35,16 @@ export interface HighlightResult {
 export interface SearchResult {
   url: string
   addonImage: string
-  index: boolean
+  index?: boolean
   name: string
-  publish: boolean
-  status: string
-  submittedById: string
+  publish?: boolean
+  status?: string
+  submittedById?: string
   summary: string
-  timeCreated: TimeCreated
-  timeUpdated: TimeUpdated
-  updated: boolean
-  willBeUpdated: boolean
+  timeCreated?: TimeCreated
+  timeUpdated?: TimeUpdated
+  updated?: boolean
+  willBeUpdated?: boolean
   objectID: string
-  _highlightResult: HighlightResult
+  _highlightResult?: HighlightResult
 }

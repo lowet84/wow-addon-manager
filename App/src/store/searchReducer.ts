@@ -1,7 +1,10 @@
-import { readFileSync, writeFileSync } from 'fs'
+import { readFileSync, writeFileSync, fstat, existsSync, mkdirSync } from 'fs'
 import { RootState } from '.'
 import { useDispatch } from 'react-redux'
 import { SearchResult } from './SearchResult'
+import { get } from 'https'
+import * as AdmZip from 'adm-zip'
+import { downloadFile } from './downloadFile'
 
 export type SearchAction = { type: 'setSearchResults'; input: SearchResult[] }
 export type SearchState = { searchResults: SearchResult[] }
@@ -30,27 +33,38 @@ export function search(
   }
 }
 
-// const parseRow = (html: string): SearchResult => {
-//   var tags = html.split('><')
-//   if (tags.length < 31) return
-//   var image = tags[3].match(/data-original="(.*?)"/)[1]
-//   var link = tags[7].match(/href="(.*?)"/)[1]
-//   var name = tags[7].match(/>(.*?)</)[1]
-//   var description = tags[9].match(/>(.*?)</)[1].trim()
-//   return { name, image, tags, description, link }
-// }
+const parseRow = (html: string): SearchResult => {
+  var tags = html.split('><')
+  if (tags.length < 31) return
+  var addonImage = tags[3].match(/data-original="(.*?)"/)[1]
+  var url = tags[7].match(/href="(.*?)"/)[1]
+  var name = tags[7].match(/>(.*?)</)[1]
+  var summary = tags[9].match(/>(.*?)</)[1].trim()
+  var objectID = tags[2].match(/addons\/(.*?)\//)[1].trim()
+  return { name, addonImage, summary, url, objectID }
+}
 
-// export const loadSearchResultsLegacyWow = async () => {
-//   const dispatch = useDispatch()
-//   //   var response = await fetch('https://legacy-wow.com/classic-addons/')
-//   //   var html = await response.text()
-//   var html = readFileSync('./test.html', 'utf8')
-//   var parsed = html.split('\n')
-//   var longest = parsed.sort((a, b) => (a.length > b.length ? -1 : 1))[0]
-//   var rows = longest.split('</tr>')
-//   var items = rows.map(r => parseRow(r)).filter(d => !!d)
-//   dispatch(setSearchResults(items))
-// }
+export const loadSearchResultsLegacyWow = async () => {
+  const dispatch = useDispatch()
+  var response = await fetch('https://legacy-wow.com/classic-addons/')
+  var html = await response.text()
+  // var html = readFileSync('./test.html', 'utf8')
+  var parsed = html.split('\n')
+  var longest = parsed.sort((a, b) => (a.length > b.length ? -1 : 1))[0]
+  var rows = longest.split('</tr>')
+  var items = rows.map(r => parseRow(r)).filter(d => !!d)
+  dispatch(setSearchResults(items))
+}
+
+export const downloadAddon = async (url: string, id: string, time: number) => {
+  const response = await fetch(url)
+  const html = await response.text()
+  const link = html.match(/updateC\('(.*?)'/)[1]
+  const downloadDir = 'download'
+  if (!existsSync(downloadDir)) mkdirSync(downloadDir)
+  await downloadFile(link, `${downloadDir}/${id}.zip`)
+  console.log('done')
+}
 
 export const loadSearchResultWillItClassic = async () => {
   const dispatch = useDispatch()
