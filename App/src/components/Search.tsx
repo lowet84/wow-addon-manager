@@ -74,7 +74,12 @@ export const Search = () => {
                     style={{ marginLeft: 30 }}
                     onClick={() => {
                       if (!isAddOnInstalled(r.objectID)) {
-                        dispatch(addAddOn(r.objectID))
+                        dispatch(
+                          addAddOn({
+                            id: r.objectID,
+                            lastUpdate: r.timeUpdated._seconds
+                          })
+                        )
                       }
                     }}
                   >

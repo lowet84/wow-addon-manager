@@ -2,13 +2,18 @@ import { RootState } from '.'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 
 export type AddOnAction =
-  | { type: 'addAddOn'; input: String }
+  | { type: 'addAddOn'; input: AddOn }
   | { type: 'removeAddOn'; input: string }
-export type AddOnState = { addOns: string[] }
+export type AddOnState = { addOns: AddOn[] }
 
 const storedFileName = 'addons.json'
 
-const getInitialAddons: () => string[] = () => {
+export interface AddOn {
+  id: string
+  lastUpdate: number
+}
+
+const getInitialAddons: () => AddOn[] = () => {
   if (existsSync(storedFileName)) {
     var items = JSON.parse(readFileSync(storedFileName, 'utf8'))
     console.log(items)
@@ -17,7 +22,7 @@ const getInitialAddons: () => string[] = () => {
   return []
 }
 
-export function addAddOn(input: string): AddOnAction {
+export function addAddOn(input: AddOn): AddOnAction {
   return { type: 'addAddOn', input }
 }
 
@@ -33,15 +38,14 @@ export function addOn(
     case 'addAddOn':
       var newState = {
         ...state,
-        addOns: state.addOns.concat(action.input.toString())
+        addOns: state.addOns.concat(action.input)
       }
       writeFileSync(storedFileName, JSON.stringify(newState.addOns), 'utf8')
       return newState
     case 'removeAddOn':
-      var existing = state.addOns.find(d => d == action.input)
       var newState = {
         ...state,
-        addOns: state.addOns.splice(state.addOns.indexOf(existing), 1)
+        addOns: state.addOns.filter(d => d.id != action.input)
       }
       writeFileSync(storedFileName, JSON.stringify(newState.addOns), 'utf8')
       return newState
@@ -57,6 +61,6 @@ export const getAddOns = (state: RootState) => {
 
 export const getIsAddOnInstalled = (state: RootState) => {
   return (id: string) => {
-    return state.addOn.addOns.includes(id)
+    return !!state.addOn.addOns.find(d => d.id == id)
   }
 }
