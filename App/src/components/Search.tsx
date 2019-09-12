@@ -1,27 +1,36 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, Fragment } from 'react'
 import {
   AppBar,
   Toolbar,
   IconButton,
   Typography,
   List,
-  ListItem
+  ListItem,
+  Avatar,
+  ListItemText,
+  Divider,
+  ListItemSecondaryAction
 } from '@material-ui/core'
 import { SearchField } from './SearchField'
 import { getSearchResults } from '../store/searchReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store'
 import MenuIcon from '@material-ui/icons/Menu'
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
+import DoneOutlineIcon from '@material-ui/icons/DoneOutline'
 import { setShowDrawer } from '../store/navigationReducer'
+import { getIsAddOnInstalled, addAddOn } from '../store/addOnReducer'
 
 export const Search = () => {
   const searchResults = useSelector(getSearchResults)
+  const isAddOnInstalled = useSelector(getIsAddOnInstalled)
   const [searchString, setSearchString] = useState('')
   const filteredResult = useSelector((state: RootState) =>
     searchResults
       .filter(d => d.name.toLowerCase().includes(searchString.toLowerCase()))
       .sort((a, b) => a.name.localeCompare(b.name))
+      .slice(0, 20)
   )
   const dispatch = useDispatch()
 
@@ -50,50 +59,35 @@ export const Search = () => {
       <div style={{ marginTop: '4rem' }}>
         <List>
           {filteredResult.map((r, index) => (
-            <ListItem key={index}>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div
-                  style={{
-                    height: '80px',
-                    flex: '0 0 80px',
-
-                    margin: 10,
-                    padding: 5,
-                    borderColor: '#999999',
-                    borderWidth: 1,
-                    borderStyle: 'solid',
-                    borderRadius: 5
-                  }}
-                >
-                  {r.addonImage ? (
-                    <img src={r.addonImage} style={{ width: '100%' }} />
-                  ) : (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                        fontSize: 48
-                      }}
-                    >
-                      X
-                    </div>
-                  )}
-                </div>
-
-                <div style={{ flexDirection: 'column' }}>
-                  <div
-                    style={{ fontSize: 20 }}
-                    dangerouslySetInnerHTML={{ __html: r.name }}
-                  ></div>
-                  <div
-                    style={{ color: '#999999' }}
-                    dangerouslySetInnerHTML={{ __html: r.summary }}
-                  ></div>
-                </div>
-              </div>
-            </ListItem>
+            <Fragment key={index}>
+              <ListItem>
+                <Avatar
+                  alt="X"
+                  src={r.addonImage}
+                  style={{ height: 80, width: 80, marginRight: 30 }}
+                />
+                <ListItemText primary={r.name} secondary={r.summary} />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    aria-label="comments"
+                    style={{ marginLeft: 30 }}
+                    onClick={() => {
+                      if (!isAddOnInstalled(r.objectID)) {
+                        dispatch(addAddOn(r.objectID))
+                      }
+                    }}
+                  >
+                    {isAddOnInstalled(r.objectID) ? (
+                      <DoneOutlineIcon />
+                    ) : (
+                      <CloudDownloadIcon />
+                    )}
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </Fragment>
           ))}
         </List>
       </div>

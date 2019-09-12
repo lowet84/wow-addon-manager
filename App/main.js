@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron')
-require('electron-reload')(__dirname)
+console.log(__dirname)
+require('electron-reload')(__dirname + '/dist')
 
 let win
 
